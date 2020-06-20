@@ -5,14 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DutchTreat.Data.Entities
+namespace DutchTreat.ViewModels
 {
-  public class Order
+  public class OrderViewModel
   {
-    public int Id { get; set; }
+    public int OrderId { get; set; }
     public DateTime OrderDate { get; set; }
     [Required]
+    [MinLength(4)]
     public string OrderNumber { get; set; }
-    public ICollection<OrderItem> Items { get; set; }
+
+    public ICollection<OrderItemViewModel> Items { get; set; }
   }
 }
