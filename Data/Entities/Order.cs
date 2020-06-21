@@ -14,5 +14,6 @@ namespace DutchTreat.Data.Entities
     [Required]
     public string OrderNumber { get; set; }
     public ICollection<OrderItem> Items { get; set; }
+    public User User { get; set; }
   }
 }

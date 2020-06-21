@@ -14,6 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
+using DutchTreat.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DutchTreat
 {
@@ -30,10 +34,31 @@ namespace DutchTreat
     public void ConfigureServices(IServiceCollection services)
     {
 
+      services.AddIdentity<User, IdentityRole>(cfg =>
+      {
+        cfg.User.RequireUniqueEmail = true;
+
+      })
+        .AddEntityFrameworkStores<DutchContext>();
+
+      services.AddAuthentication()
+              .AddCookie()
+              .AddJwtBearer( cfg => 
+              {
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                  ValidIssuer = _config["Tokens:Issuer"],
+                  ValidAudience = _config["Tokens:Audience"],
+                  IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
+                };
+              });
+
       services.AddDbContext<DutchContext>( cfg =>
       {
         cfg.UseSqlServer(_config.GetConnectionString("DutchConnectionString"));
       });
+
+      
 
       services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -63,8 +88,10 @@ namespace DutchTreat
       app.UseStaticFiles();
       app.UseNodeModules();
 
-      app.UseRouting();
+      app.UseAuthentication();
 
+      app.UseRouting();
+      app.UseAuthorization();
       app.UseEndpoints(cfg =>
       {
         cfg.MapControllerRoute("Default",
