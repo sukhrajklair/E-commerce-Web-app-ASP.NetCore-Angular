@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "wwwroot/clientapp/out-tsc/spec",
+    "types": [
+      "jasmine",
+      "node"
+    ]
+  },
+  "files": [
+    "ClientApp/test.ts",
+    "ClientApp/polyfills.ts"
+  ],
+  "include": [
+    "ClientApp/**/*.spec.ts",
+    "ClientApp/**/*.d.ts"
+  ]
+}
