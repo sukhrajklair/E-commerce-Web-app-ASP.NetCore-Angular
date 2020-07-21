@@ -28,7 +28,7 @@
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1",
-    "lodash": "^4.17.14"
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.6",
